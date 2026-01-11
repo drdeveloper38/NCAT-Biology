@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAT Crash Course – E-Test</title>
+
+<style>
+/* Base Styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 15px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button#shuffleBtn {
+  background: #059669;
+}
+
+button#shuffleBtn:hover {
+  background: #047857;
+}
+
+button#adminBtn {
+  background: #7c3aed;
+}
+
+button#adminBtn:hover {
+  background: #5b21b6;
+}
+
+/* Form Styles */
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Timer Styles */
+#timer {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dc2626;
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 2px solid #fecaca;
+}
+
+/* Question Styles */
+.question-block {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border-left: 5px solid #2563eb;
+}
+
+.question-block p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 15px;
+}
+
+.option {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  background: #f0f9ff;
+  border-color: #93c5fd;
+}
+
+.option input[type="radio"] {
+  margin-right: 12px;
+  transform: scale(1.2);
+}
+
+/* Certificate Styles */
+#certificate {
+  border: 3px dashed #1e3a8a;
+  padding: 30px;
+  text-align: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  margin-top: 30px;
+  border-radius: 15px;
+}
+
+#certificate h3 {
+  color: #1e3a8a;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+#certText {
+  font-size: 18px;
+  color: #374151;
+  line-height: 1.8;
+}
+
+/* Academy Image Styles */
+.academy-image {
+  text-align: center;
+  margin: 20px 0 30px;
+}
+
+.academy-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.academy-name {
+  text-align: center;
+  color: #1e3a8a;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 15px 0;
+  padding: 10px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+  border-radius: 8px;
+}
+
+/* Button Container */
+.button-container {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 15px auto;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .question-block {
+    padding: 15px;
+  }
+  
+  .question-block p {
+    font-size: 16px;
+  }
+  
+  .academy-image img {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+  }
+  
+  #timer {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .option {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  #certificate {
+    padding: 20px;
+  }
+  
+  #certificate h3 {
+    font-size: 22px;
+  }
+  
+  #certText {
+    font-size: 16px;
+  }
+  
+  .academy-name {
+    font-size: 1.2rem;
+  }
+}
+
+/* Desktop Optimization */
+@media (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .question-block {
+    padding: 25px;
+  }
+  
+  .academy-image img {
+    max-height: 250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN SECTION -->
+<div class="container" id="loginSection">
+  <div class="academy-image">
+    <!-- Replace with your academy/course image -->
+    <img src="logo.png"
+         alt="NCAT Academy - Learning Center">
+  </div>
+  
+  <div class="academy-name">
+    NWA - Excellence in Education
+  </div>
+  
+  <h1>9th Biology  - 1 to 3 Chapters</h1>
+  
+  <label for="studentName">Student Name</label>
+  <input id="studentName" type="text" placeholder="Enter your full name"><br><br>
+  
+  <label for="fatherName">Father Name</label>
+  <input id="fatherName" type="text" placeholder="Enter father's name"><br><br>
+  
+  <label for="district">District</label>
+  <input id="district" type="text" placeholder="Enter your district"><br><br>
+  
+  <label for="testPass">Test Password</label>
+  <input id="testPass" type="password" placeholder="Enter test password"><br><br>
+  
+  <div class="button-container">
+    <button onclick="startTest()">Start Test</button>
+  </div>
+</div>
+
+<!-- TEST SECTION -->
+<div class="container hidden" id="testSection">
+  <div id="timer"></div>
+  <div id="questionsContainer"></div>
+  
+  <div class="button-container">
+    <button id="shuffleBtn" onclick="shuffleQuestions()">Shuffle Questions & Restart</button>
+    <button onclick="submitTest()">Submit Test</button>
+  </div>
+</div>
+
+<!-- STUDENT RESULT -->
+<div class="container hidden" id="studentResult">
+  <h2>Your Result</h2>
+  <p id="resultText"></p>
+  
+  <div id="certificate" class="hidden">
+    <h3>Certificate of Passing</h3>
+    <p id="certText"></p>
+    <p><strong>Issued by: NCAT Academy</strong></p>
+    <p><em>Date: <span id="certDate"></span></em></p>
+  </div>
+  
+  <div class="button-container">
+    <button onclick="resetTest()">Take Another Test</button>
+  </div>
+</div>
+
+<script>
+/* SETTINGS */
+const TEST_PASSWORD = "ncat2026";
+const TEST_START = new Date('2026-01-09T09:00:00');
+const TEST_END   = new Date('2026-01-20T12:00:00');
+const DURATION   = 80 * 60;
+
+/* QUESTIONS ARRAY - Each question has text, options array, and correct answer (1-4) */
+const ORIGINAL_QUESTIONS = [
+  /* { question: "Powerhouse of the cell is?", options: ["Mitochondria", "Nucleus", "Ribosome", "Golgi Apparatus"], correct: 1 }, */
+  {
+    "question": "What does the word “Biology” mean?",
+    "options": ["Study of Earth", "Study of Life", "Study of Chemicals", "Study of Space"],
+    "correct": 2
+  },
+  {
+    "question": "Which branch of Biology deals with the study of plants?",
+    "options": ["Zoology", "Microbiology", "Botany", "Ecology"],
+    "correct": 3
+  },
+  {
+    "question": "The study of heredity and genes is called:",
+    "options": ["Ecology", "Genetics", "Physiology", "Taxonomy"],
+    "correct": 2
+  },
+  {
+    "question": "Which branch studies the relationship between organisms and their environment?",
+    "options": ["Anatomy", "Ecology", "Biotechnology", "Biophysics"],
+    "correct": 2
+  },
+  {
+    "question": "Biology combined with Chemistry is known as:",
+    "options": ["Biogeography", "Biochemistry", "Biophysics", "Bioinformatics"],
+    "correct": 2
+  },
+  {
+    "question": "The Quran encourages the study of life to:",
+    "options": ["Memorize names", "Reveal signs of creation", "Become famous", "Ignore nature"],
+    "correct": 2
+  },
+  {
+    "question": "The basic unit of life is:",
+    "options": ["Atom", "Molecule", "Cell", "Tissue"],
+    "correct": 3
+  },
+  {
+    "question": "Which level of organization comes immediately after “organ system”?",
+    "options": ["Tissue", "Organ", "Organism", "Population"],
+    "correct": 3
+  },
+  {
+    "question": "A group of similar organisms living in an area is called:",
+    "options": ["Community", "Population", "Ecosystem", "Biosphere"],
+    "correct": 2
+  },
+  {
+    "question": "The highest level of biological organization is:",
+    "options": ["Ecosystem", "Community", "Biosphere", "Population"],
+    "correct": 3
+  },
+  {
+    "question": "The first step in the Biological Method is:",
+    "options": ["Hypothesis", "Observation", "Experiment", "Conclusion"],
+    "correct": 2
+  },
+  {
+    "question": "A testable explanation for a scientific problem is called:",
+    "options": ["Theory", "Law", "Hypothesis", "Principle"],
+    "correct": 3
+  },
+  {
+    "question": "Which group in an experiment is used as a standard for comparison?",
+    "options": ["Experimental group", "Control group", "Variable group", "Deductive group"],
+    "correct": 2
+  },
+  {
+    "question": "“If plants get more light, then they will grow taller” is an example of:",
+    "options": ["Theory", "Deduction", "Law", "Data"],
+    "correct": 2
+  },
+  {
+    "question": "A well-supported explanation based on extensive evidence is a:",
+    "options": ["Hypothesis", "Law", "Theory", "Guess"],
+    "correct": 3
+  },
+  {
+    "question": "A universal statement describing a natural phenomenon is a:",
+    "options": ["Theory", "Hypothesis", "Law", "Variable"],
+    "correct": 3
+  },
+  {
+    "question": "Numerical data (e.g., height, number) is called:",
+    "options": ["Qualitative data", "Quantitative data", "Descriptive data", "Theoretical data"],
+    "correct": 2
+  },
+  {
+    "question": "Mathematics is used in Biology for:",
+    "options": ["Drawing only", "Statistical analysis", "Naming organisms", "Making hypotheses only"],
+    "correct": 2
+  },
+  {
+    "question": "The scientific method step that follows “Experiment” is:",
+    "options": ["Observation", "Data analysis", "Problem identification", "Reporting"],
+    "correct": 2
+  },
+  {
+    "question": "Who is often called the father of the scientific method?",
+    "options": ["Darwin", "Linnaeus", "Bacon", "Whittaker"],
+    "correct": 3
+  },
+  {
+    "question": "Biodiversity refers to:",
+    "options": ["Only animals", "Variety of life", "Only plants", "Non-living things"],
+    "correct": 2
+  },
+  {
+    "question": "Genetic diversity means:",
+    "options": ["Variety of ecosystems", "Variety within a species", "Variety of species", "Variety of habitats"],
+    "correct": 2
+  },
+  {
+    "question": "Classification helps in:",
+    "options": ["Making organisms extinct", "Organizing living things", "Creating new species", "Ignoring similarities"],
+    "correct": 2
+  },
+  {
+    "question": "The correct order of taxonomic hierarchy is:",
+    "options": ["Kingdom → Class → Phylum → Order", "Kingdom → Phylum → Class → Order", "Phylum → Kingdom → Class → Order", "Order → Class → Phylum → Kingdom"],
+    "correct": 2
+  },
+  {
+    "question": "Who proposed the Two-Kingdom classification system?",
+    "options": ["Robert Whittaker", "Carl Linnaeus", "Charles Darwin", "Louis Pasteur"],
+    "correct": 2
+  },
+  {
+    "question": "The Two-Kingdom system included:",
+    "options": ["Plants and Fungi", "Animals and Protists", "Plants and Animals", "Monera and Protista"],
+    "correct": 3
+  },
+  {
+    "question": "The Five-Kingdom system was proposed by:",
+    "options": ["Linnaeus", "Whittaker", "Darwin", "Hooke"],
+    "correct": 2
+  },
+  {
+    "question": "Which kingdom contains prokaryotic organisms?",
+    "options": ["Protista", "Fungi", "Monera", "Plantae"],
+    "correct": 3
+  },
+  {
+    "question": "Amoeba belongs to which kingdom?",
+    "options": ["Monera", "Protista", "Fungi", "Animalia"],
+    "correct": 2
+  },
+  {
+    "question": "Mushrooms and yeasts belong to:",
+    "options": ["Plantae", "Fungi", "Protista", "Monera"],
+    "correct": 2
+  },
+  {
+    "question": "Autotrophic multicellular organisms are in kingdom:",
+    "options": ["Animalia", "Plantae", "Fungi", "Protista"],
+    "correct": 2
+  },
+  {
+    "question": "Binomial Nomenclature was introduced by:",
+    "options": ["Whittaker", "Darwin", "Linnaeus", "Mendel"],
+    "correct": 3
+  },
+  {
+    "question": "In Homo sapiens, Homo refers to:",
+    "options": ["Species", "Genus", "Family", "Order"],
+    "correct": 2
+  },
+  {
+    "question": "The correct way to write a scientific name is:",
+    "options": ["Homo Sapiens", "homo sapiens", "Homo sapiens", "Homo sapiens (bold)"],
+    "correct": 3
+  },
+  {
+    "question": "Conservation of biodiversity is important for:",
+    "options": ["Ecological balance", "Making money only", "Reducing species numbers", "Increasing pollution"],
+    "correct": 1
+  },
+  {
+    "question": "Protected areas like national parks help in:",
+    "options": ["Habitat destruction", "Conservation", "Overhunting", "Pollution"],
+    "correct": 2
+  },
+  {
+    "question": "Which kingdom includes cyanobacteria?",
+    "options": ["Protista", "Monera", "Fungi", "Plantae"],
+    "correct": 2
+  },
+  {
+    "question": "An example of a heterotrophic multicellular kingdom is:",
+    "options": ["Plantae", "Animalia", "Monera", "Protista"],
+    "correct": 2
+  },
+  {
+    "question": "The first step in classification is based on:",
+    "options": ["Color", "Size", "Similarities and differences", "Age"],
+    "correct": 3
+  },
+  {
+    "question": "The term “Biosphere” includes:",
+    "options": ["Only land", "Only water", "All ecosystems on Earth", "Only atmosphere"],
+    "correct": 3
+  },
+  {
+    "question": "Which is NOT a branch of Biology?",
+    "options": ["Geology", "Botany", "Zoology", "Microbiology"],
+    "correct": 1
+  },
+  {
+    "question": "Physiology deals with:",
+    "options": ["Classification", "Functions of body parts", "Evolution", "Environment"],
+    "correct": 2
+  },
+  {
+    "question": "Biogeography combines Biology with:",
+    "options": ["Physics", "Geography", "Chemistry", "Mathematics"],
+    "correct": 2
+  },
+  {
+    "question": "In levels of organization, tissues form:",
+    "options": ["Cells", "Organs", "Organ systems", "Organisms"],
+    "correct": 2
+  },
+  {
+    "question": "A community includes:",
+    "options": ["One type of organism", "All populations in an area", "Only plants", "Only animals"],
+    "correct": 2
+  },
+  {
+    "question": "The purpose of an experiment is to:",
+    "options": ["Prove the hypothesis always", "Test the hypothesis", "Ignore data", "Support the theory only"],
+    "correct": 2
+  },
+  {
+    "question": "Qualitative data is:",
+    "options": ["Numerical", "Descriptive", "Measured in units", "Used in graphs only"],
+    "correct": 2
+  },
+  {
+    "question": "After hypothesis, scientists make:",
+    "options": ["Observations", "Deductions", "Conclusions", "Reports"],
+    "correct": 2
+  },
+  {
+    "question": "A principle is:",
+    "options": ["A guess", "A fundamental truth", "A type of data", "A graph"],
+    "correct": 2
+  },
+  {
+    "question": "Which is a theory in Biology?",
+    "options": ["Law of Gravity", "Cell Theory", "Hypothesis of Growth", "Principle of Life"],
+    "correct": 2
+  },
+  {
+    "question": "The Five-Kingdom system is based on:",
+    "options": ["Color only", "Cell type and nutrition", "Size only", "Habitat only"],
+    "correct": 2
+  },
+  {
+    "question": "Which kingdom is known as the “decomposer kingdom”?",
+    "options": ["Plantae", "Animalia", "Fungi", "Protista"],
+    "correct": 3
+  },
+  {
+    "question": "Unicellular eukaryotes are in:",
+    "options": ["Monera", "Protista", "Fungi", "Plantae"],
+    "correct": 2
+  },
+  {
+    "question": "The science of naming organisms is called:",
+    "options": ["Ecology", "Taxonomy", "Physiology", "Genetics"],
+    "correct": 2
+  },
+  {
+    "question": "In taxonomy, “Family” is between:",
+    "options": ["Order and Genus", "Class and Order", "Genus and Species", "Kingdom and Phylum"],
+    "correct": 1
+  },
+  {
+    "question": "Biodiversity does NOT include:",
+    "options": ["Genetic variation", "Ecosystem variety", "Non-living things", "Species variety"],
+    "correct": 3
+  },
+  {
+    "question": "Which system replaced the Two-Kingdom system?",
+    "options": ["Three-Kingdom", "Six-Kingdom", "One-Kingdom", "Ten-Kingdom"],
+    "correct": 1
+  },
+  {
+    "question": "Binomial Nomenclature uses:",
+    "options": ["Three names", "Two names", "One name", "Common names only"],
+    "correct": 2
+  },
+  {
+    "question": "An example of a prokaryote is:",
+    "options": ["Amoeba", "Bacteria", "Mushroom", "Rose plant"],
+    "correct": 2
+  },
+  {
+    "question": "Conservation methods include:",
+    "options": ["Deforestation", "Protected areas", "Overfishing", "Pollution"],
+    "correct": 2
+  },
+  {
+    "question": "The study of internal structures is:",
+    "options": ["Physiology", "Anatomy", "Ecology", "Genetics"],
+    "correct": 2
+  },
+  {
+    "question": "Sociobiology combines Biology with:",
+    "options": ["Sociology", "Physics", "Chemistry", "Mathematics"],
+    "correct": 1
+  },
+  {
+    "question": "The lowest level of organization is:",
+    "options": ["Cell", "Atom", "Molecule", "Organelle"],
+    "correct": 2
+  },
+  {
+    "question": "A deduction often starts with:",
+    "options": ["Because", "If… then…", "After", "Maybe"],
+    "correct": 2
+  },
+  {
+    "question": "Graphs are used in:",
+    "options": ["Data organization", "Hypothesis making", "Observation only", "Naming organisms"],
+    "correct": 1
+  },
+  {
+    "question": "Mathematics helps in Biology for:",
+    "options": ["Naming species", "Statistical tests", "Drawing cells only", "Memorizing terms"],
+    "correct": 2
+  },
+  {
+    "question": "The kingdom Monera contains:",
+    "options": ["Animals", "Plants", "Prokaryotes", "Fungi"],
+    "correct": 3
+  },
+  {
+    "question": "Protists are mostly:",
+    "options": ["Multicellular", "Unicellular eukaryotes", "Prokaryotes", "Heterotrophs only"],
+    "correct": 2
+  },
+  {
+    "question": "Fungi obtain food by:",
+    "options": ["Photosynthesis", "Absorption", "Ingestion", "Chemosynthesis"],
+    "correct": 2
+  },
+  {
+    "question": "Plants are:",
+    "options": ["Heterotrophs", "Autotrophs", "Decomposers", "Parasites"],
+    "correct": 2
+  },
+  {
+    "question": "Animals are:",
+    "options": ["Autotrophs", "Heterotrophs", "Saprotrophs", "Producers"],
+    "correct": 2
+  },
+  {
+    "question": "The Two-Kingdom system did NOT include:",
+    "options": ["Bacteria", "Plants", "Animals", "Trees"],
+    "correct": 1
+  },
+  {
+    "question": "The Five-Kingdom system was introduced in:",
+    "options": ["1753", "1866", "1969", "2000"],
+    "correct": 3
+  },
+  {
+    "question": "The mnemonic for taxonomic hierarchy is:",
+    "options": ["KPCOFGS", "ABCDEFG", "KINGDOM FIRST", "LIFE ORDER"],
+    "correct": 1
+  },
+  {
+    "question": "Binomial names are written in:",
+    "options": ["Bold", "Italics", "Quotes", "Capital letters only"],
+    "correct": 2
+  },
+  {
+    "question": "Panthera leo refers to:",
+    "options": ["Tiger", "Lion", "Human", "Bacteria"],
+    "correct": 2
+  },
+  {
+    "question": "Loss of biodiversity leads to:",
+    "options": ["Ecological imbalance", "More species", "Better environment", "Increased rainfall"],
+    "correct": 1
+  },
+  {
+    "question": "A national park is an example of:",
+    "options": ["Habitat destruction", "In-situ conservation", "Poaching", "Pollution"],
+    "correct": 2
+  },
+  {
+    "question": "The variety of ecosystems in an area is:",
+    "options": ["Species diversity", "Genetic diversity", "Ecosystem diversity", "Kingdom diversity"],
+    "correct": 3
+  },
+  {
+    "question": "The first step in solving a biological problem is:",
+    "options": ["Hypothesis", "Experiment", "Observation", "Conclusion"],
+    "correct": 3
+  },
+  {
+    "question": "A hypothesis must be:",
+    "options": ["Proven", "Testable", "Final", "Long"],
+    "correct": 2
+  },
+  {
+    "question": "In an experiment, the factor that changes is:",
+    "options": ["Control", "Variable", "Constant", "Theory"],
+    "correct": 2
+  },
+  {
+    "question": "A law in biology is:",
+    "options": ["Changeable easily", "A universal statement", "A guess", "An experiment result"],
+    "correct": 2
+  },
+  {
+    "question": "Data can be presented in:",
+    "options": ["Tables only", "Graphs only", "Tables and graphs", "Only words"],
+    "correct": 3
+  },
+  {
+    "question": "Biology’s link with computer science is:",
+    "options": ["Biophysics", "Biochemistry", "Bioinformatics", "Biogeography"],
+    "correct": 3
+  },
+  {
+    "question": "Which is NOT a level of organization?",
+    "options": ["Population", "Community", "Society", "Ecosystem"],
+    "correct": 3
+  },
+  {
+    "question": "After organism, the next level is:",
+    "options": ["Population", "Community", "Organ system", "Tissue"],
+    "correct": 1
+  },
+  {
+    "question": "The Five-Kingdom system separates fungi from plants because fungi:",
+    "options": ["Have chlorophyll", "Are decomposers", "Are mobile", "Are prokaryotic"],
+    "correct": 2
+  },
+  {
+    "question": "Which kingdom has organisms with cell walls made of chitin?",
+    "options": ["Plantae", "Animalia", "Fungi", "Protista"],
+    "correct": 3
+  },
+  {
+    "question": "The term “biodiversity hotspot” refers to an area with:",
+    "options": ["Low species richness", "High species richness and threat", "No species", "Only plants"],
+    "correct": 2
+  },
+  {
+    "question": "The father of taxonomy is:",
+    "options": ["Whittaker", "Linnaeus", "Darwin", "Pasteur"],
+    "correct": 2
+  },
+  {
+    "question": "In classification, “Order” is between:",
+    "options": ["Class and Family", "Family and Genus", "Phylum and Class", "Kingdom and Phylum"],
+    "correct": 1
+  },
+  {
+    "question": "An example of a prokaryotic kingdom is:",
+    "options": ["Protista", "Fungi", "Monera", "Plantae"],
+    "correct": 3
+  },
+  {
+    "question": "Which is a method of biodiversity conservation?",
+    "options": ["Deforestation", "Overgrazing", "Captive breeding", "Pollution"],
+    "correct": 3
+  },
+  {
+    "question": "The biosphere includes:",
+    "options": ["Only oceans", "Only forests", "All living and non-living parts where life exists", "Only deserts"],
+    "correct": 3
+  },
+  {
+    "question": "Which is a qualitative observation?",
+    "options": ["The plant is 10 cm tall", "The leaf is green", "There are 5 petals", "It weighs 2 grams"],
+    "correct": 2
+  },
+  {
+    "question": "Which is a quantitative observation?",
+    "options": ["The animal is fast", "The solution is cloudy", "There are 20 seeds", "The smell is strong"],
+    "correct": 3
+  },
+  {
+    "question": "In the scientific method, after data analysis comes:",
+    "options": ["Hypothesis", "Conclusion", "Observation", "Experiment"],
+    "correct": 2
+  },
+  {
+    "question": "A theory becomes a law when:",
+    "options": ["It is written in a book", "It is proven absolutely true", "It is universally accepted as a factual statement", "It is a guess"],
+    "correct": 3
+  },
+  {
+    "question": "The main aim of classification is to:",
+    "options": ["Make organisms extinct", "Show evolutionary relationships", "Change names frequently", "Ignore differences"],
+    "correct": 2
+  }
+];
+
+let questions = [...ORIGINAL_QUESTIONS];
+let shuffledQuestions = [];
+let timeLeft = DURATION;
+let timer;
+let testStarted = false;
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function shuffleQuestions() {
+  if (confirm("Are you sure you want to shuffle questions and restart the test? Your current answers will be lost.")) {
+    clearInterval(timer);
+    shuffledQuestions = shuffleArray(questions);
+    displayQuestions();
+    timeLeft = DURATION;
+    startTimer();
+  }
+}
+
+function displayQuestions() {
+  const container = document.getElementById("questionsContainer");
+  container.innerHTML = "";
+  
+  const questionsToDisplay = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToDisplay.forEach((q, index) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.className = "question-block";
+    
+    questionDiv.innerHTML = `
+      <p>${index + 1}. ${q.question}</p>
+      <label class="option">
+        <input type="radio" name="q${index}" value="1">
+        <span>${q.options[0]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="2">
+        <span>${q.options[1]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="3">
+        <span>${q.options[2]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="4">
+        <span>${q.options[3]}</span>
+      </label>
+    `;
+    container.appendChild(questionDiv);
+  });
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    document.getElementById("timer").innerHTML = 
+      `<i class="clock-icon">⏰</i> Time Left: ${minutes}:${seconds.toString().padStart(2, "0")}`;
+    
+    timeLeft--;
+    
+    if (timeLeft < 0) {
+      clearInterval(timer);
+      submitTest();
+    }
+    
+    // Color change when time is running out
+    if (timeLeft < 300) { // Less than 5 minutes
+      document.getElementById("timer").style.color = "#ef4444";
+      document.getElementById("timer").style.background = "#fee2e2";
+    }
+  }, 1000);
+}
+
+function startTest() {
+  const now = new Date();
+  if (now < TEST_START || now > TEST_END) {
+    alert("Test is not active at this time. Please check the test schedule.");
+    return;
+  }
+  
+  const studentName = document.getElementById("studentName").value.trim();
+  const fatherName = document.getElementById("fatherName").value.trim();
+  const district = document.getElementById("district").value.trim();
+  const password = document.getElementById("testPass").value;
+  
+  if (!studentName || !fatherName || !district || !password) {
+    alert("Please fill in all fields before starting the test.");
+    return;
+  }
+  
+  if (password !== TEST_PASSWORD) {
+    alert("Wrong Password. Please enter the correct test password.");
+    return;
+  }
+  
+  document.getElementById("loginSection").classList.add("hidden");
+  document.getElementById("testSection").classList.remove("hidden");
+  
+  testStarted = true;
+  shuffledQuestions = [];
+  displayQuestions();
+  startTimer();
+}
+
+function submitTest() {
+  clearInterval(timer);
+  
+  let score = 0;
+  const questionsToCheck = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToCheck.forEach((q, index) => {
+    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selectedOption && parseInt(selectedOption.value) === q.correct) {
+      score++;
+    }
+  });
+  
+  const total = questionsToCheck.length;
+  const percent = Math.round((score / total) * 100);
+  const grade = percent >= 80 ? "A" : percent >= 60 ? "B" : percent >= 40 ? "C" : "Fail";
+  
+  const record = {
+    name: document.getElementById("studentName").value.trim(),
+    father: document.getElementById("fatherName").value.trim(),
+    district: document.getElementById("district").value.trim(),
+    score,
+    total,
+    percent,
+    grade,
+    date: new Date().toLocaleString(),
+    timestamp: new Date().getTime()
+  };
+  
+  // SAVE LOCALLY
+  let results = JSON.parse(localStorage.getItem("ncatResults")) || [];
+  results.push(record);
+  localStorage.setItem("ncatResults", JSON.stringify(results));
+  
+  // SHOW STUDENT RESULT
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("studentResult").classList.remove("hidden");
+  
+  document.getElementById("resultText").innerHTML = `
+    <strong>Name:</strong> ${record.name}<br>
+    <strong>Father's Name:</strong> ${record.father}<br>
+    <strong>District:</strong> ${record.district}<br>
+    <strong>Score:</strong> ${score}/${total}<br>
+    <strong>Percentage:</strong> ${percent}%<br>
+    <strong>Grade:</strong> ${grade}<br>
+    <strong>Date:</strong> ${record.date}
+  `;
+  
+  if (grade !== "Fail") {
+    document.getElementById("certificate").classList.remove("hidden");
+    document.getElementById("certText").innerHTML = 
+      `This certifies that <strong>${record.name}</strong>, S/O <strong>${record.father}</strong>, 
+      from <strong>${record.district}</strong> has successfully passed the NCAT Crash Course E-Test 
+      with grade <strong>${grade}</strong>.`;
+    document.getElementById("certDate").textContent = record.date;
+  }
+}
+
+function resetTest() {
+  // Clear form fields
+  document.getElementById("studentName").value = "";
+  document.getElementById("fatherName").value = "";
+  document.getElementById("district").value = "";
+  document.getElementById("testPass").value = "";
+  
+  // Reset all radio buttons
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.checked = false;
+  });
+  
+  // Reset questions to original order
+  shuffledQuestions = [];
+  
+  // Show login section, hide others
+  document.getElementById("studentResult").classList.add("hidden");
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("loginSection").classList.remove("hidden");
+  
+  // Reset timer variables
+  timeLeft = DURATION;
+  testStarted = false;
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+</script>
+
+<!-- ADMIN BUTTON -->
+<div style="text-align:center; margin-top: 20px;">
+  <button id="adminBtn">Admin Portal</button>
+</div>
+
+<script>
+document.getElementById("adminBtn").addEventListener("click", function() {
+  let pass = prompt("Enter Admin Password:");
+  if (pass === "a1ncat.123") {
+    window.open("results.html", "_blank");
+  } else {
+    alert("Wrong password. Access denied.");
+  }
+});
+</script>
+
+</body>
+</html>
